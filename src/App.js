@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       inputUrl: "",
       imgUrl: "",
-      box: {},
+      boxes: [],
     };
   }
 
@@ -54,10 +54,7 @@ class App extends Component {
     )
       .then((response) => response.text())
       .then((result) =>
-        this.renderFaceBox(
-          JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info
-            .bounding_box
-        )
+        this.renderFaceBox(JSON.parse(result, null, 2).outputs[0].data)
       )
       .catch((error) => console.log("error", error));
   };
@@ -66,13 +63,17 @@ class App extends Component {
     const faceImg = document.getElementById("faceImg");
     const imgWidth = Number(faceImg.width);
     const imgHeight = Number(faceImg.height);
-    const faceBox = {
-      top_boundry: imgHeight * data.top_row,
-      bottom_boundry: imgHeight - imgHeight * data.bottom_row,
-      right_boundry: imgWidth - imgWidth * data.right_col,
-      left_boundry: imgWidth * data.left_col,
-    };
-    this.setState({ box: faceBox });
+    const regions = data.regions.map((region) => {
+      const { top_row, bottom_row, right_col, left_col } =
+        region.region_info.bounding_box;
+      return {
+        top_boundry: imgHeight * top_row,
+        bottom_boundry: imgHeight - imgHeight * bottom_row,
+        right_boundry: imgWidth - imgWidth * right_col,
+        left_boundry: imgWidth * left_col,
+      };
+    });
+    this.setState({ boxes: regions });
   };
   render() {
     return (
@@ -85,7 +86,7 @@ class App extends Component {
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onButtonSubmit}
         />
-        <FaceRecognition imgUrl={this.state.imgUrl} box={this.state.box} />
+        <FaceRecognition imgUrl={this.state.imgUrl} boxes={this.state.boxes} />
       </div>
     );
   }
