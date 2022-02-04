@@ -11,10 +11,7 @@ export default function Logo() {
         style={{ height: 150, width: 150 }}
       >
         <div className="Tilt-inner pa3">
-          <img
-            src={brain}
-            alt="brain"
-          />
+          <img src={brain} alt="brain" />
         </div>
       </Tilt>
     </div>
