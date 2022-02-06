@@ -1,6 +1,13 @@
+import { useState } from "react";
 import "./index.css";
 
-export default function ImageLinkForm({ onInputChange, onButtonSubmit }) {
+export default function ImageLinkForm({ handleSubmit }) {
+  const [inputUrl, setInputUrl] = useState("");
+
+  const onInputChange = (event) => {
+    setInputUrl(event.target.value);
+  };
+
   return (
     <div>
       <p className="f3">
@@ -15,7 +22,7 @@ export default function ImageLinkForm({ onInputChange, onButtonSubmit }) {
           />
           <button
             className="w-25 grow f4 fw6 bn link ph3 pv2 dib near-black bg-washed-yellow"
-            onClick={onButtonSubmit}
+            onClick={() => handleSubmit(inputUrl)}
           >
             Detect
           </button>
