@@ -46,7 +46,6 @@ export default function FaceRecognition({ imgUrl, isLoading, setIsLoading }) {
               ></div>
             );
           })}
-        {isLoading && <p>Finding faces ...</p>}
       </div>
     </div>
   );
