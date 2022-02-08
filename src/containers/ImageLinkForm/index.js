@@ -1,7 +1,8 @@
+import Spinner from "components/Spinner";
 import { useState } from "react";
 import "./index.css";
 
-export default function ImageLinkForm({ handleSubmit }) {
+export default function ImageLinkForm({ handleSubmit , isLoading }) {
   const [inputUrl, setInputUrl] = useState("");
 
   const onInputChange = (event) => {
@@ -24,7 +25,7 @@ export default function ImageLinkForm({ handleSubmit }) {
             className="w-25 grow f4 fw6 bn link ph3 pv2 dib near-black bg-washed-yellow"
             onClick={() => handleSubmit(inputUrl)}
           >
-            Detect
+            {isLoading ? <Spinner /> : "Detect"}
           </button>
         </div>
       </div>

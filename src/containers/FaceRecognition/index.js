@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import "./index.css";
-import getFaceRegions from "../../api/face-detection";
+import getFaceRegions from "./face-regions";
 
-export default function FaceRecognition({ imgUrl }) {
-  const [loading, setLoading] = useState(false);
+export default function FaceRecognition({ imgUrl, isLoading, setIsLoading }) {
   const [boxes, setBoxes] = useState([]);
   useEffect(() => {
-    imgUrl.length > 0 && setLoading(true);
+    imgUrl.length > 0 && setIsLoading(true);
+    return () => {
+      setIsLoading(false);
+    };
   }, [imgUrl]);
 
   const handleOnLoad = async (e) => {
@@ -15,7 +17,7 @@ export default function FaceRecognition({ imgUrl }) {
     const response = await getFaceRegions(imgMeta);
     const data = await response.json();
     setBoxes(data);
-    setLoading(false);
+    setIsLoading(false);
   };
   return (
     <div className="center ma">
@@ -27,7 +29,7 @@ export default function FaceRecognition({ imgUrl }) {
           height="auto"
           width="500px"
         />
-        {!loading &&
+        {!isLoading &&
           boxes.map((box, index) => {
             const { top_boundry, bottom_boundry, right_boundry, left_boundry } =
               box;
@@ -44,7 +46,7 @@ export default function FaceRecognition({ imgUrl }) {
               ></div>
             );
           })}
-        {loading && <p>Finding faces ...</p>}
+        {isLoading && <p>Finding faces ...</p>}
       </div>
     </div>
   );

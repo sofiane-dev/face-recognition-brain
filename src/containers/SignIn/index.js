@@ -1,4 +1,5 @@
 import { useState } from "react";
+import signin from "./signin";
 
 export default function SignIn({ setUser, setRoute }) {
   const [email, setEmail] = useState("");
@@ -7,14 +8,7 @@ export default function SignIn({ setUser, setRoute }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
+    const data = await signin(email, password);
     if (typeof data === "object") {
       setUser(data);
       setRoute("home");

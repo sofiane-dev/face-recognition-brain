@@ -1,4 +1,6 @@
 import { useState } from "react";
+import register from "./register";
+
 export default function Register({ setRoute, setUser }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -6,14 +8,7 @@ export default function Register({ setRoute, setUser }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await response.json();
+    const data = await register(email, name, password);
     setUser(data);
     setRoute("home");
   };
