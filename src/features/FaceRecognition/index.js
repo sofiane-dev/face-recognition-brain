@@ -1,23 +1,34 @@
 import { useEffect, useState } from "react";
 import "./index.css";
 import getFaceRegions from "./face-regions";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setIsLoading, setImgSrc } from "features/appSlice";
+import updateRank from "./updateRank";
 
-export default function FaceRecognition({ imgUrl, isLoading, setIsLoading }) {
+export default function FaceRecognition() {
+  const { user, isLoading, imgSrc } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
   const [boxes, setBoxes] = useState([]);
+
   useEffect(() => {
-    imgUrl.length > 0 && setIsLoading(true);
+    imgSrc.length > 0 && dispatch(setIsLoading(true));
     return () => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     };
-  }, [imgUrl]);
+  }, [imgSrc]);
 
   const handleOnLoad = async (e) => {
     const { src: url, height, width } = e.target;
     const imgMeta = { url, height, width };
-    const response = await getFaceRegions(imgMeta);
-    const data = await response.json();
-    setBoxes(data);
-    setIsLoading(false);
+    const data = await getFaceRegions(imgMeta);
+    if (data) {
+      setBoxes(data);
+      const newUser = await updateRank(user.id);
+      if (newUser) {
+        dispatch(setUser(newUser));
+      }
+    }
+    dispatch(setIsLoading(false));
   };
   return (
     <div className="center ma">
@@ -25,7 +36,7 @@ export default function FaceRecognition({ imgUrl, isLoading, setIsLoading }) {
         <img
           onLoad={handleOnLoad}
           alt=""
-          src={imgUrl}
+          src={imgSrc}
           height="auto"
           width="500px"
         />

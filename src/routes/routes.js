@@ -9,7 +9,7 @@ import SignIn from "features/SignIn";
 import Register from "features/Register";
 import Error from "common/Error";
 
-export default function App() {
+export default function Routes() {
   const { route, error } = useSelector((state) => state.app);
 
   const renderRoute = (route) => {
@@ -30,12 +30,12 @@ export default function App() {
   };
 
   return (
-    <div className="app">
+    <>
       <Background />
       <Navigation />
       <Logo />
       {renderRoute(route)}
       {error && <Error />}
-    </div>
+    </>
   );
 }

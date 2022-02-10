@@ -1,9 +1,13 @@
-import Spinner from "components/Spinner";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Spinner from "common/Spinner";
+import { setImgSrc } from "features/appSlice";
 import "./index.css";
 
-export default function ImageLinkForm({ handleSubmit , isLoading }) {
+export default function ImageLinkForm() {
   const [inputUrl, setInputUrl] = useState("");
+  const { isLoading } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
 
   const onInputChange = (event) => {
     setInputUrl(event.target.value);
@@ -23,7 +27,7 @@ export default function ImageLinkForm({ handleSubmit , isLoading }) {
           />
           <button
             className="w-25 grow f4 fw6 bn link ph3 pv2 dib near-black bg-washed-yellow"
-            onClick={() => handleSubmit(inputUrl)}
+            onClick={() => dispatch(setImgSrc(inputUrl))}
           >
             {isLoading ? <Spinner /> : "Detect"}
           </button>

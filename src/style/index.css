@@ -9,3 +9,12 @@ body {
 button {
   cursor: pointer;
 }
+
+.app {
+  text-align: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}

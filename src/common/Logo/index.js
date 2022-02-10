@@ -1,6 +1,6 @@
 import Tilt from "react-tilt";
+import brain from "assets/images/brain.png";
 import "./index.css";
-import brain from "./brain.png";
 
 export default function Logo() {
   return (

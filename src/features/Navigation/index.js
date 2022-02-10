@@ -1,11 +1,17 @@
-export default function Navigation({setImgUrl, setUser, route, setRoute }) {
+import { useDispatch, useSelector } from "react-redux";
+import { navigate, setImgSrc, setUser } from "features/appSlice";
+
+export default function Navigation() {
+  const dispatch = useDispatch();
+  const route = useSelector((state) => state.app.route);
+
   const handleSignout = () => {
-    setImgUrl({});
-    setUser({});
-    setRoute("signIn");
+    dispatch(setUser({}));
+    dispatch(setImgSrc(""));
+    dispatch(navigate("signin"));
   };
-  const renderNavItems = (path) => {
-    switch (path) {
+  const renderNavItems = (route) => {
+    switch (route) {
       case "home":
         return (
           <p
@@ -20,13 +26,13 @@ export default function Navigation({setImgUrl, setUser, route, setRoute }) {
           <>
             <p
               className="f3 link dim black underline pa3 pointer"
-              onClick={() => setRoute("signIn")}
+              onClick={() => dispatch(navigate("signin"))}
             >
               Sign In
             </p>
             <p
               className="f3 link dim black underline pa3 pointer"
-              onClick={() => setRoute("register")}
+              onClick={() => dispatch(navigate("register"))}
             >
               Register
             </p>

@@ -1,4 +1,7 @@
-export default function Rank({ user }) {
+import { useSelector } from "react-redux";
+
+export default function Rank() {
+  const user = useSelector((state) => state.app.user);
   const { name, entries } = user;
   return (
     <div>

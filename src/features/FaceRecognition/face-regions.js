@@ -9,11 +9,19 @@ export default async function getFaceRegions({ url, height, width }) {
     },
   });
 
-  return fetch(`${SERVER_URL}/face-detection`, {
+  const options = {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: raw,
-  });
+  };
+
+  try {
+    const response = await fetch(`${SERVER_URL}/face-detection`, options);
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
 }
