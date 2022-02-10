@@ -5,4 +5,5 @@ export default configureStore({
   reducer: {
     app: appReducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 });
